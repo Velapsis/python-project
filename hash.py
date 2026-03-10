@@ -1,0 +1,4 @@
+
+
+def HashGen(spectogram):
+    pass
