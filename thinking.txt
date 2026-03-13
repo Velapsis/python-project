@@ -1,0 +1,11 @@
+La matrice 2D NumPy est de ce format (fréquences, instants t)
+On peut donc accéder à chaque valeur avec spec[f, t]
+f = index fréquence
+t = index temps
+
+Le sample rate est de 22.050 Hz.
+L'array est : (1025, 8020)
+Donc en théorie, il y aurait 1025 fréquences et 8020 instants t
+L'algorithme STFT génère par défaut 1025 fréquences. Les instants t correspondent au temps réel de la musique.
+Pour retrouver le temps réel on fait: fréquences * échantillons entre deux frames / sample rate
+Par exemple: 8020 * 512 / 22050 = 186.22s
