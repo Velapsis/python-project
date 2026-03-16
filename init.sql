@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS songs(  
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    artist TEXT
+    name TEXT
 );
 
 CREATE TABLE IF NOT EXISTS hashs(
