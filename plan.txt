@@ -1,0 +1,18 @@
+Définir des zones du spectrogramme en fonction de [t] secondes
+Pour chaque zone définie, détecter le pic maximum local en fonction de [db] décibels
+
+Pour chaque pic détecté, récupérer sa fréquence [f] en Hz
+Pour chaque pic détecté, générer 3 paires de pics (hashs) en fonction des 3 pics suivants
+Exemple pour le pic A: (A-B), (A-C), (A-D)
+
+Pour chaque paire, récupérer le Δt entre le pic origine et le pic suivant: Δt = t2 - t1
+
+Pour chaque paire on a donc :
+  pic                 pic
+origine     Δt      suivant
+p.o ----------------> p.s
+
+Pour chaque paire, générer le hash correspond: hash(f1, f2, Δt)
+Le nombre total de hashs devrait être de 3 fois le nombre total de zones définies sur le spectogramme
+
+Ensuite, injection des hashs dans la base de donnée
