@@ -36,7 +36,7 @@ def GenerateHashs(song, debug=True):
         index = np.argmax(zone.spec)
         f, t = np.unravel_index(index, zone.spec.shape)
         freq, time = f * sampleRate / 2048, t + zone.start
-        peaks.append((freq, time))
+        peaks.append((round(freq), time))
     
     # Pour chaque pic, on génère sa paire de hashs correspondante
     hashs = []

@@ -1,2 +1,6 @@
 lib
 lib64
+songs
+__pycache__
+bin
+bin/*
