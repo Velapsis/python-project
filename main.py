@@ -3,6 +3,10 @@ from match import TryMatch
 from database import InitDatabase, AddHash, AddSong
 import sys
 from pathlib import Path
+from mic import record_to_file
+
+
+record_to_file('test.wav')
 
 songs_folder = Path("songs")
 InitDatabase()
