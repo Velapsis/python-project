@@ -21,20 +21,40 @@ def AddHash(songId, hash):
 
     db.commit()
 
-def AddSong(songname):
+def SongExists(songname):
+    cursor.execute("SELECT 1 FROM songs WHERE name = ?;", (songname,))
+    return cursor.fetchone() is not None
+
+def FindMatchingHashes(hash, tolerance=40):
+    freq1, freq2, anchor, delta = hash
     cursor.execute(
         """
-        INSERT INTO songs (name)
-        VALUES (?);
+        SELECT song_id FROM hashs
+        WHERE freq1 BETWEEN ? AND ?
+          AND freq2 BETWEEN ? AND ?
+          AND anchor BETWEEN ? AND ?
+          AND delta BETWEEN ? AND ?
         """,
-        (songname,),
+        (
+            freq1 - tolerance, freq1 + tolerance,
+            freq2 - tolerance, freq2 + tolerance,
+            anchor - 40, anchor + 40,
+            delta - 20, delta + 20,
+        )
     )
+    return [row[0] for row in cursor.fetchall()]
 
+def GetSongName(song_id):
+    cursor.execute("SELECT name FROM songs WHERE id = ?", (song_id,))
+    row = cursor.fetchone()
+    return row[0] if row else None
+
+def AddSong(songname):
+    cursor.execute("SELECT id FROM songs WHERE name = ?;", (songname,))
+    row = cursor.fetchone()
+    if row:
+        return row[0]
+
+    cursor.execute("INSERT INTO songs (name) VALUES (?);", (songname,))
     db.commit()
-
-    cursor.execute(
-        "SELECT id FROM songs WHERE name = ?;",
-        (songname,)
-    )
-
-    return cursor.fetchone()[0]
+    return cursor.lastrowid

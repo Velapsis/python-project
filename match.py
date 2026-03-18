@@ -1,15 +1,21 @@
-# Comparer un record par rapport un son de la base de données
-# Format: hash(fréquence1, fréquence2, anchor_t, delta_t)
-def TryMatch(record, song):
-    for recordHash in record:
-        for songHash in song:
-            if (recordHash[0] > songHash[0]+40 | recordHash[0] < songHash[0]+40):
-                return False
-            if (recordHash[1] > songHash[1]+40 | recordHash[1] < songHash[1]+40):
-                return False
-            if (recordHash[2] > songHash[2]+10 | recordHash[2]-10):
-                return False
-            if (recordHash[3] > songHash[3]+15 | recordHash[3] > songHash[3]+15):
-                return False
-            else:
-                return True
+from database import FindMatchingHashes, GetSongName
+
+def TryMatch(recordHashs):
+    votes = {}
+
+    for hash in recordHashs:
+        matching_song_ids = FindMatchingHashes(hash)
+        for song_id in matching_song_ids:
+            votes[song_id] = votes.get(song_id, 0) + 1
+
+    if not votes:
+        return None
+
+    best_song_id = max(votes, key=lambda k: votes[k])
+    best_score = votes[best_song_id]
+    total_hashes = len(recordHashs)
+
+    print(f"Votes: {votes}")
+    print(f"Meilleur match: song_id={best_song_id} avec {best_score}/{total_hashes} hashs")
+
+    return GetSongName(best_song_id)
