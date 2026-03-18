@@ -8,10 +8,9 @@ CREATE TABLE IF NOT EXISTS hashs(
     song_id INTEGER,
     freq1 INTEGER,
     freq2 INTEGER,
-    anchor INTEGER,
     delta INTEGER,
     FOREIGN KEY (song_id) REFERENCES songs(id)
 );
 
 CREATE INDEX IF NOT EXISTS hash_index
-ON hashs(freq1, freq2, anchor, delta);
+ON hashs(freq1, freq2, delta);
