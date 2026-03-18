@@ -1,5 +1,0 @@
-librosa
-matplotlib
-sounddevice
-numpy
-soundfile

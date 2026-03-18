@@ -1,8 +1,22 @@
 from hash import GenerateHashs
 from match import TryMatch
+from database import InitDatabase, AddHash, AddSong
+import sys
+from pathlib import Path
+
+songs_folder = Path("songs")
+InitDatabase()
+
+for song in songs_folder.iterdir():
+    hashsRecord = GenerateHashs(song)
+    songId = AddSong(str(song.stem))
+    for hash in hashsRecord:
+        AddHash(songId, hash)
 
 # Génération des hashs
-hashsRecord = GenerateHashs("songs/California_Dreamin.mp3")
+
+
+
 
 # Test des matches sur chaque son
 # match = TryMatch()
