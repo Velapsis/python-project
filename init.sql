@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS hashs(
     freq1 INTEGER,
     freq2 INTEGER,
     delta INTEGER,
+    time INTEGER,
     FOREIGN KEY (song_id) REFERENCES songs(id)
 );
 

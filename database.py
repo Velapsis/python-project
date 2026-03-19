@@ -12,10 +12,10 @@ def AddHash(songId, hash):
     print("adding", hash, "to", songId)
     cursor.execute(
         """
-        INSERT INTO hashs (song_id, freq1, freq2, delta)
-        VALUES (?, ?, ?, ?);
+        INSERT INTO hashs (song_id, freq1, freq2, delta, time)
+        VALUES (?, ?, ?, ?, ?);
         """,
-        (songId, hash[0], hash[1], hash[2])
+        (songId, hash[0], hash[1], hash[2], hash[3])
     )
 
     db.commit()
@@ -25,10 +25,10 @@ def SongExists(songname):
     return cursor.fetchone() is not None
 
 def FindMatchingHashes(hash, tolerance=10):
-    freq1, freq2, delta = hash
+    freq1, freq2, delta, _ = hash  # on ignore l'anchor_time du recording pour la lookup
     cursor.execute(
         """
-        SELECT song_id FROM hashs
+        SELECT song_id, time FROM hashs
         WHERE freq1 BETWEEN ? AND ?
           AND freq2 BETWEEN ? AND ?
           AND delta BETWEEN ? AND ?
@@ -39,7 +39,7 @@ def FindMatchingHashes(hash, tolerance=10):
             delta - 2, delta + 2,
         )
     )
-    return [row[0] for row in cursor.fetchall()]
+    return cursor.fetchall()  # liste de (song_id, time)
 
 def GetSongName(song_id):
     cursor.execute("SELECT name FROM songs WHERE id = ?", (song_id,))
