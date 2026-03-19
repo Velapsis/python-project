@@ -1,3 +1,6 @@
+from init import setup
+setup()
+
 from hash import GenerateHashs
 from match import TryMatch
 from database import InitDatabase, AddHash, AddSong
